@@ -1,3 +1,7 @@
+:root {
+  --ng-text-color: rgb(45, 239, 41);
+}
+
 body {
   font-family: 'SF Pro Text', 'SF Pro Icons', 'Helvetica Neue', 'Helvetica',
     'Arial', sans-serif;

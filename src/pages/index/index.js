@@ -1,15 +1,20 @@
 import { useState } from 'react';
+import axios from 'axios';
 import Head from 'next/head';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import s from './index.module.css';
+import InputField from '../../components/InputField';
+import Slider from '../../components/Slider';
+import ErrorMessage from '../../components/ErrorMessage';
 
 const BotTab = () => (
   <>
     <p>
-      Neurojam is a bot for{' '}
+      This is a bot for{' '}
       <a href="https://github.com/Qirky/Troop" target="_blank">
         Troop
       </a>{' '}
-      that takes my drum patterns and turns them into a masterpiece using a
+      that takes user drum patterns and turns them into a masterpiece using a
       machine learning model from the{' '}
       <a href="https://magenta.tensorflow.org/" target="_blank">
         Magenta
@@ -37,37 +42,96 @@ const BotTab = () => (
   </>
 );
 
-const APITab = () => (
-  <div>
-    <form action="https://codercat.tk/livecoding/sprucey" id="spruceyForm">
-      <label for="pattern">Pattern:</label>
-      <input type="text" id="pattern" name="pattern" value="x x .  rr" />
+const getDrums = (pattern, length, randomness, onSuccess, onFailure) => {
+  const payload = { pattern, length, randomness };
+  axios
+    .post('https://codercat.tk/livecoding/foxdot/ai-drums', payload)
+    .then(res => {
+      onSuccess(res.data);
+    })
+    .catch(err => onFailure(err.response.data));
+};
 
-      <label for="length">Length:</label>
-      <input
-        type="number"
-        id="length"
-        name="length"
-        min="1"
-        max="50"
-        value="8"
-      />
+const APITab = () => {
+  const [pattern, setPattern] = useState('');
+  const [length, setLength] = useState(8);
+  const [randomness, setRandomness] = useState(1.5);
+  const [result, setResult] = useState('');
+  const [error, setError] = useState('');
+  const [isCopied, setIsCopied] = useState(false);
 
-      <label for="randomness">Randomness:</label>
-      <input
-        type="number"
-        step="0.1"
-        id="randomness"
-        name="randomness"
-        min="0"
-        max="10"
-        value="1.5"
-      />
+  const copyBtnText = isCopied ? 'Copied!' : 'Copy';
 
-      <input type="submit" value="Submit" />
-    </form>
-  </div>
-);
+  const handleSubmit = () => {
+    setError('');
+    setResult('');
+    setIsCopied(false);
+    getDrums(
+      pattern,
+      length,
+      randomness,
+      data => setResult(data),
+      msg => setError(msg),
+    );
+  };
+
+  return (
+    <div>
+      <div className={s.description}>
+        This project is an API for using the magenta machine learning tool to
+        generate FoxDot drum patterns. After providing a seed pattern, the
+        neural network will dream up a continuation to your pattern. The API
+        output format is ready to go in FoxDot format, and can be executed
+        automatically or copied, pasted, and edited. For more info see{' '}
+        <a
+          href="https://github.com/sneha-belkhale/livecoding-ai-drums"
+          target="_blank"
+        >
+          Github
+        </a>{' '}
+        page.
+      </div>
+      <div className={s.form}>
+        <InputField
+          value={pattern}
+          type="text"
+          placeholder="Starting Pattern"
+          onChange={e => setPattern(e.target.value)}
+          onKeyDown={e => (e.key === 'Enter' ? handleSubmit() : null)}
+        />
+        <Slider
+          value={length}
+          name="length"
+          label="Length"
+          min={3}
+          max={40}
+          onChange={e => setLength(e.target.value)}
+        />
+        <Slider
+          name="randomness"
+          value={randomness}
+          label="Randomness"
+          min={0}
+          max={10}
+          step={0.1}
+          onChange={e => setRandomness(e.target.value)}
+        />
+        <div className={s.button} type="button" onClick={handleSubmit}>
+          GENERATE
+        </div>
+
+        <div className={s.result}>{result}</div>
+        <ErrorMessage text={error} />
+
+        {result !== '' ? (
+          <CopyToClipboard text={result} onCopy={() => setIsCopied(true)}>
+            <span className={s.simpleButton}>{copyBtnText}</span>
+          </CopyToClipboard>
+        ) : null}
+      </div>
+    </div>
+  );
+};
 
 const Home = () => {
   const [tab, setTab] = useState('bot');

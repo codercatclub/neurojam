@@ -1,0 +1,33 @@
+.container {
+  margin-top: 40px;
+  overflow: hidden;
+}
+
+.input {
+  font-size: 16px;
+  padding-bottom: 10px;
+  background: transparent;
+  border: none;
+  width: 100%;
+  border-bottom: 2px solid var(--ng-text-color);
+  outline: none;
+  border-radius: 0;
+  color: var(--ng-text-color);
+  letter-spacing: 3px;
+}
+
+.input::placeholder {
+  color: var(--ng-text-color);
+  opacity: 0.4;
+  letter-spacing: 2px;
+}
+
+.valid {
+  border-bottom-color: #9a4ab2;;
+}
+
+@media (max-width: 768px) {
+  .input {
+    font-size: 16px;
+  }
+}
