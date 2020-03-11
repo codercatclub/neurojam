@@ -1,7 +1,5 @@
 const isProd = process.env.NODE_ENV === 'production';
 
-console.log('[D] isProd: ', isProd);
-
 module.exports = {
   exportTrailingSlash: true,
   exportPathMap: function() {
@@ -11,5 +9,5 @@ module.exports = {
       '/tab/bot': { page: '/tab/[tab]' },
     };
   },
-  assetPrefix: isProd ? '/neurojam' : '',
+  distDir: 'build',
 };

@@ -152,10 +152,14 @@ const Home = () => {
   const tab = router.query.tab || defaultTab;
 
   const tabsElements = tabs.map(tabName => {
-    const tabID = tabName.toLocaleLowerCase();
+    const tabID = tabName.toLowerCase();
     const tabStyle = tab === tabID ? s.active : '';
     return (
-      <Link href={`tab/[tab]`} as={`tab/${tabID}`} key={tabID}>
+      <Link
+        href={`/tab/[tab]`}
+        as={`/tab/${tabID}`}
+        key={tabID}
+      >
         <a className={tabStyle} tabIndex="0" role="button">
           {tabName}
         </a>
@@ -168,7 +172,7 @@ const Home = () => {
       <div className={s.background}>
         <img
           className={s.backgroundImage}
-          src="electric.gif"
+          src="/electric.gif"
           id="background-image"
           alt="Electric Web"
         />
@@ -177,7 +181,7 @@ const Home = () => {
       <div className={s.content}>
         <h1 className={s.title}>NEUROJAM</h1>
         <ul className={s.tabHeader}>{tabsElements}</ul>
-        <div className={s.tab}>{tab === 'api' ? <APITab /> : <BotTab /> }</div>
+        <div className={s.tab}>{tab === 'api' ? <APITab /> : <BotTab />}</div>
       </div>
     </div>
   );
