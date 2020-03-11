@@ -168,7 +168,7 @@ const Home = () => {
       <div className={s.background}>
         <img
           className={s.backgroundImage}
-          src="/electric.gif"
+          src="electric.gif"
           id="background-image"
           alt="Electric Web"
         />
