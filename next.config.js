@@ -1,13 +1,17 @@
-const isProd = process.env.NODE_ENV === 'production';
+const prefix = process.env.URL_PREFIX || '';
+
+console.log('[D] prefix: ', prefix);
 
 module.exports = {
   exportTrailingSlash: true,
   exportPathMap: function() {
     return {
       '/': { page: '/' },
-      '/tab/api': { page: '/tab/[tab]' },
-      '/tab/bot': { page: '/tab/[tab]' },
     };
   },
   distDir: 'build',
+  assetPrefix: prefix,
+  env: {
+    PREFIX: prefix,
+  },
 };

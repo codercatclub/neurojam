@@ -82,7 +82,7 @@
   padding: 0px 0px 0px 20px;
 }
 
-.tabHeader a {
+.tabHeader li {
   color: #9a4ab2;
   display: flex;
   align-items: center;
