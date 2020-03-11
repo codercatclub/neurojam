@@ -155,7 +155,7 @@ const Home = () => {
     const tabID = tabName.toLocaleLowerCase();
     const tabStyle = tab === tabID ? s.active : '';
     return (
-      <Link href={`/tab/[tab]`} as={`/tab/${tabID}`} key={tabID}>
+      <Link href={`tab/[tab]`} as={`tab/${tabID}`} key={tabID}>
         <a className={tabStyle} tabIndex="0" role="button">
           {tabName}
         </a>
