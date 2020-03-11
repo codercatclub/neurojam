@@ -4,9 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "URL_PREFIX='/neurojam' next build",
     "start": "next start",
-    "export": "next export"
+    "export": "next export",
+    "deploy": "./tools/deploy.sh"
   },
   "dependencies": {
     "axios": "^0.19.2",
